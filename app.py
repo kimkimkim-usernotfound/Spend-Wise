@@ -9,6 +9,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, FileField
 from wtforms.validators import DataRequired
 from flask import send_from_directory
+from flask import Flask, send_from_directory, render_template_string
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'  # Replace with a real secret key
@@ -70,7 +71,13 @@ def index():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts ORDER BY id DESC').fetchall()
     conn.close()
-    return render_template('index.html', posts=posts)
+
+    # Load the HTML content from index.html located in the root directory
+    with open('index.html') as f:
+        content = f.read()
+
+    # Render the HTML content with the posts data
+    return render_template_string(content.replace('{{ posts }}', str(posts)))  # Simple replacement, be cautious with this approach
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
