@@ -1,0 +1,211 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fafafa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    position: relative;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Centers the image */
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav a {
+    color: #d64161;
+    font-size: 1.2em;
+    margin: 0 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #a0304c;
+}
+
+.alert {
+    padding: 15px;
+    margin: 10px 20px;
+    color: #970020;
+    background-color: #ffd5de;
+    border-left: 5px solid #d64161;
+}
+
+.content {
+    padding: 20px;
+}
+
+footer {
+    background: #d64161;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
+    }
+    nav a {
+        margin: 10px 0;
+    }
+}
+
+
+/* CSS for the pink bar */
+.marquee-container {
+    position: static; /* Keep it fixed */
+    width: 100%;
+    background-color: rgba(223, 152, 206, 0.854); /* Background color */
+    overflow: hidden; /* Hides the excess text */
+    z-index: 1000; /* Make sure it is on top */
+}
+
+.marquee {
+    display: inline-block; /* Allow horizontal scrolling */
+    white-space: nowrap; /* Prevent wrapping */
+    animation: marquee 25s linear infinite; /* Animation timing */
+    color: #000; /* T5ext color */
+    font-size: 20px; /* Font size */
+    padding-left: 100%; /* Start from the left */
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); } /* Start off-screen right */
+    100% { transform: translateX(-100%); } /* End off-screen left */
+}
+
+/* Main product list styling */
+.product-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Light background for a clean look */
+    border-radius: 15px; /* More rounded corners for a softer appearance */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+    font-family: 'Arial', sans-serif; /* Clean and elegant font */
+}
+
+h1 {
+    text-align: center;
+    color: #e91e63; /* Soft pink color for titles */
+    font-size: 2.5em; /* Larger size for more impact */
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #f9f9f9; /* Light background for table */
+    border-radius: 15px; /* Rounded corners for table */
+    overflow: hidden; /* Prevent overflow of rounded corners */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1; /* Light gray for header */
+    color: #333;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #ffeef8; /* Light pink on hover for rows */
+}
+
+.note {
+    font-size: 0.9em; /* Smaller font size for note */
+    color: #aaa; /* Lighter gray color for note */
+    text-align: center; /* Centered text for note */
+    padding: 10px 0; /* Padding for clarity */
+}
+
+.error, .warning {
+    color: #d32f2f; /* Dark red for error messages */
+    margin: 10px 0;
+    text-align: center;
+}
+
+.converted-amount {
+    font-weight: 600; /* Bold for emphasis */
+    color: #4caf50; /* Green for positive conversion messages */
+    text-align: center;
+    margin: 10px 0;
+}
+
+.highlight {
+    background-color: #ffebee; /* Light pink background for highlighting */
+    font-weight: bold; /* Bold text for emphasis */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #e91e63; /* Soft pink for labels */
+}
+
+input[type="number"] {
+    padding: 12px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Rounded corners for inputs */
+    font-size: 1em; /* Standard font size */
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #e91e63; /* Soft pink for button */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Rounded corners for button */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #c2185b; /* Darker pink on hover */
+}
+
+.post-image {
+    max-width: 100%; /* Limit width to 100% of the container */
+    max-height: 400px; /* Limit height to 400px (adjust as needed) */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Optional: add rounded corners */
+}
