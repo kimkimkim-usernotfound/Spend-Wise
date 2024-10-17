@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Watches{% endblock %}
+
+{% block content %}
+<style>
+    /* Add any specific styles for the watches page here */
+</style>
+
+<div class="product-list">
+    <h1>Luxury Watches</h1>
+
+    {% if api_error %}
+        <p class="error">{{ api_error }}</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Buy in Europe</th>
+                <th>Buy in Japan</th>
+                <th>Buy in HK</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4" class="note">
+                    Japan = ~10% VAT, Europe = ~12% VAT
+                </td>
+            </tr>
+
+            {% for product in products %}
+            {% set euro_tax_price = product.converted_hkd_from_euro_tax %}
+            {% set yen_tax_price = product.converted_hkd_from_yen_tax %}
+            {% set hkd_price = product.price_hkd %}
+
+            {% set lowest_price = euro_tax_price %}
+            {% if yen_tax_price is not none and yen_tax_price < lowest_price %}
+                {% set lowest_price = yen_tax_price %}
+            {% endif %}
+            {% if hkd_price is not none and hkd_price < lowest_price %}
+                {% set lowest_price = hkd_price %}
+            {% endif %}
+
+            <tr>
+                <td>
+                    <strong>{{ product.name }}</strong> 
+                    <br>
+                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" class="{{ product.name|lower|replace(' ', '-') }}-image" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #ddd;" />
+                </td>
+                <td class="{% if euro_tax_price == lowest_price %}highlight{% endif %}">
+                    {{ product.converted_hkd_from_euro }} HKD ({{ product.price_euro }} Euro)<br>
+                    <strong>After TAX Refund:</strong> 
+                    {% if euro_tax_price is not none %}
+                        {{ euro_tax_price }} HKD
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td class="{% if yen_tax_price == lowest_price %}highlight{% endif %}">
+                    {{ product.converted_hkd_from_yen }} HKD ({{ product.price_yen }} Yen)<br>
+                    <strong>After TAX Refund:</strong> 
+                    {% if yen_tax_price is not none %}
+                        {{ yen_tax_price }} HKD
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td class="{% if hkd_price == lowest_price %}highlight{% endif %}">
+                    {{ hkd_price }} HKD
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
+    <!-- Show converted amounts for Yen and Euro -->
+    {% if hkd_amount_yen is not none %}
+        <p class="converted-amount">Converted Amount from Yen: HKD {{ hkd_amount_yen }}</p>
+    {% endif %}
+    
+    {% if hkd_amount_euro is not none %}
+        <p class="converted-amount">Converted Amount from Euro: HKD {{ hkd_amount_euro }}</p>
+    {% endif %}
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="yen_amount">Enter amount in Yen:</label>
+        <input type="number" id="yen_amount" name="yen_amount" step="any" min="0" placeholder="Yen Amount">
+        
+        <label for="euro_amount">Enter amount in Euro:</label>
+        <input type="number" id="euro_amount" name="euro_amount" step="any" min="0" placeholder="Euro Amount">
+        
+        <button type="submit" {% if exchange_rates[0] is none or exchange_rates[1] is none %}disabled{% endif %}>Convert to HKD</button>
+    </form>
+    
+    {% if exchange_rates[0] is none or exchange_rates[1] is none %}
+        <p class="warning">Conversion is currently unavailable due to issues with retrieving the exchange rate.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %}Add a New Post{% endblock %}</h1>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}  <!-- Add this line to include the CSRF token -->
+        <div>
+            {{ form.title.label }} {{ form.title(size=20) }}
+            <br>
+        </div>
+
+        <div>
+            {{ form.content.label }} {{ form.content }}
+            <br>
+        </div>
+
+        <div>
+            {{ form.photo.label }} {{ form.photo }}
+            <br>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('index') }}">Back to Posts</a>
+{% endblock %}
